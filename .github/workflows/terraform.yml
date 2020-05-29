@@ -23,7 +23,8 @@ jobs:
     - id: output
       run: terraform output
 
-    - run: |
+    - name: Add Mask
+      run: |
         echo "::add-mask::${{ steps.output.outputs.stdout }}"
 
     - run: echo "${{ steps.output.outputs.stdout }}"
