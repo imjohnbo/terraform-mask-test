@@ -8,20 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: |
-        echo "::add-mask::${{ steps.plan.outputs.stdout }}"
 
     - uses: hashicorp/setup-terraform@v1
 
-    - run: terraform init
+    - id: init
+      run: terraform init
 
     - id: plan
       run: terraform plan -no-color
 
-    - run: echo "${{ steps.plan.outputs.stdout }}"
-    - run: echo "${{ steps.plan.outputs.stderr }}"
-    - run: echo "${{ steps.plan.outputs.exitcode }}"
+    - id: apply
+      run: terraform apply -auto-approve
+
+    - id: output
+      run: terraform output
+
     - run: |
-        MY_NAME="Mona The Octocat"
-        echo "::add-mask::$MY_NAME"
-        echo $MY_NAME
+        echo "::add-mask::${{ steps.output.outputs.stdout }}"
+
+    - run: echo "${{ steps.output.outputs.stdout }}"
