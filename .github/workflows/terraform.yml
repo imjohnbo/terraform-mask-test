@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - run: |
+        echo "::add-mask::${{ steps.plan.outputs.stdout }}"
+
     - uses: hashicorp/setup-terraform@v1
 
     - run: terraform init
@@ -21,3 +24,4 @@ jobs:
     - run: |
         MY_NAME="Mona The Octocat"
         echo "::add-mask::$MY_NAME"
+        echo $MY_NAME
